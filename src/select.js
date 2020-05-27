@@ -8,6 +8,9 @@ import Button from "@material-ui/core/Button";
 import { Dialog } from "@material-ui/core";
 
 import MultiSelect from "./multiselect";
+import MyCalendar from "./calendar";
+import MyClock from "./time";
+import SelectType from "./singleSelectType";
 
 const useStyles = makeStyles((theme) => ({
 	button: {
@@ -20,13 +23,13 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export default function ControlledOpenSelect({ handleSelect }) {
+export default function ControlledOpenSelect({ handleSelect, filterData }) {
 	const classes = useStyles();
 	const [data, setData] = React.useState("");
 	const [open, setOpen] = React.useState(false);
 
 	const [name, setName] = React.useState("");
-	const [tags, setTags] = React.useState([]);
+	//const [tags, setTags] = React.useState([]);
 
 	console.log("data from select...", data);
 
@@ -53,18 +56,6 @@ export default function ControlledOpenSelect({ handleSelect }) {
 		setData("");
 	};
 
-	const closeTags = () => {
-		alert("close tags");
-		setOpen(false);
-		setData("");
-	};
-
-	const saveTags = () => {
-		alert("add chips");
-		setOpen(false);
-		setData("");
-	};
-
 	const handleNameChange = (e) => {
 		setName(e.target.value);
 	};
@@ -77,7 +68,7 @@ export default function ControlledOpenSelect({ handleSelect }) {
 	return (
 		<div>
 			<FormControl className={classes.formControl}>
-				<InputLabel id="demo-controlled-open-select-label">Data</InputLabel>
+				<InputLabel id="demo-controlled-open-select-label">Filter</InputLabel>
 				<Select
 					labelId="demo-controlled-open-select-label"
 					id="demo-controlled-open-select"
@@ -91,7 +82,7 @@ export default function ControlledOpenSelect({ handleSelect }) {
 					onFocus={handleFocus}
 					// onClick={handleSelect}
 				>
-					<MenuItem value="user" onClick={handleOpen}>
+					{/* <MenuItem value="user" onClick={handleOpen}>
 						User
 					</MenuItem>
 					<MenuItem value="tags" onClick={handleOpen}>
@@ -99,38 +90,41 @@ export default function ControlledOpenSelect({ handleSelect }) {
 					</MenuItem>
 					<MenuItem value="type" onClick={handleOpen}>
 						Type
-					</MenuItem>
+					</MenuItem> */}
+					{filterData &&
+						filterData.map((d) => (
+							<MenuItem key={d.fdata} value={d.fdata} onClick={handleOpen}>
+								{d.fdata}
+							</MenuItem>
+						))}
 				</Select>
 			</FormControl>
 			{data === "tags" && (
 				<Dialog
 					open={open}
-					// onClose={handleClose}
 					aria-labelledby="alert-dialog-title"
 					aria-describedby="alert-dialog-description"
 				>
 					tags
 					<MultiSelect
-						close={closeTags}
-						save={saveTags}
+						close={closeThis}
+						save={saveThis}
 						handleSelect={handleSelect}
 					></MultiSelect>
 				</Dialog>
 			)}
-			{data === "type" && (
+			{/* {data === "type" && (
 				<Dialog
 					open={open}
-					//onClose={handleClose}
 					aria-labelledby="alert-dialog-title"
 					aria-describedby="alert-dialog-description"
 				>
-					type
+					type : add single select type component here
 				</Dialog>
-			)}
+			)} */}
 			{data === "user" && (
 				<Dialog
 					open={open}
-					// onClose={handleClose}
 					aria-labelledby="alert-dialog-title"
 					aria-describedby="alert-dialog-description"
 				>
@@ -145,6 +139,46 @@ export default function ControlledOpenSelect({ handleSelect }) {
 						save
 					</Button>
 					<Button onClick={closeThis}>close</Button>
+				</Dialog>
+			)}
+
+			{data === "analysis date" && (
+				<Dialog
+					open={open}
+					aria-labelledby="alert-dialog-title"
+					aria-describedby="alert-dialog-description"
+				>
+					<MyCalendar
+						close={closeThis}
+						save={saveThis}
+						handleSelect={handleSelect}
+					></MyCalendar>
+				</Dialog>
+			)}
+			{data === "analysis time" && (
+				<Dialog
+					open={open}
+					aria-labelledby="alert-dialog-title"
+					aria-describedby="alert-dialog-description"
+				>
+					<MyClock
+						close={closeThis}
+						save={saveThis}
+						handleSelect={handleSelect}
+					></MyClock>
+				</Dialog>
+			)}
+			{data === "type" && (
+				<Dialog
+					open={open}
+					aria-labelledby="alert-dialog-title"
+					aria-describedby="alert-dialog-description"
+				>
+					<SelectType
+						close={closeThis}
+						save={saveThis}
+						handleSelect={handleSelect}
+					></SelectType>
 				</Dialog>
 			)}
 		</div>

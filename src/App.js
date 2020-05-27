@@ -271,6 +271,8 @@ class MyFilter extends Component {
 			name: "",
 			tags: "",
 			type: "",
+			analysisDate: "",
+			analysisTime: "",
 			chipsData: [],
 		};
 	}
@@ -283,15 +285,31 @@ class MyFilter extends Component {
 		// 	chipsData: [{ key: e1, value: e2 }],
 		// });
 
-		if (e1 === "user") {
+		if (e1 === "user" && e2 !== "") {
 			this.setState({ name: e2 });
 		}
-		if (e1 === "tags") {
+		if (e1 === "tags" && e2.length !== 0) {
 			this.setState({ tags: e2 });
+		}
+		if (e1 === "type" && e2 !== "") {
+			this.setState({ type: e2 });
+		}
+		if (e1 === "analysis date" && e2 !== "") {
+			this.setState({ analysisDate: e2 });
+		}
+		if (e1 === "analysis time" && e2 !== "") {
+			this.setState({ analysisTime: e2 });
 		}
 	};
 
 	render() {
+		const filterData = [
+			{ fdata: "user" },
+			{ fdata: "tags" },
+			{ fdata: "type" },
+			{ fdata: "analysis date" },
+			{ fdata: "analysis time" },
+		];
 		return (
 			<div>
 				{/* {this.state.chipsData && this.state.chipsData.length > 0 && (
@@ -304,14 +322,41 @@ class MyFilter extends Component {
 						<Chip label={`${z.key}-${z.value}`}></Chip>
 					))} */}
 				{this.state.name && this.state.name !== "" && (
-					<Chip label={`user name - ${this.state.name}`}></Chip>
+					<Chip
+						label={`user name - ${this.state.name}`}
+						onDelete={() => this.setState({ name: "" })}
+					></Chip>
 				)}
 				{this.state.tags && this.state.tags !== "" && (
 					// this.state.tags.map((z) => <Chip label={`tags - ${z}`}></Chip>)
-					<Chip label={`tags - ${this.state.tags}`}></Chip>
+					<Chip
+						label={`tags - ${this.state.tags}`}
+						onDelete={() => this.setState({ tags: "" })}
+					></Chip>
+				)}
+				{this.state.type && this.state.type !== "" && (
+					// this.state.tags.map((z) => <Chip label={`tags - ${z}`}></Chip>)
+					<Chip
+						label={`type - ${this.state.type}`}
+						onDelete={() => this.setState({ type: "" })}
+					></Chip>
+				)}
+				{this.state.analysisDate && this.state.analysisDate !== "" && (
+					// this.state.tags.map((z) => <Chip label={`tags - ${z}`}></Chip>)
+					<Chip
+						label={`analysis date - ${this.state.analysisDate}`}
+						onDelete={() => this.setState({ analysisDate: "" })}
+					></Chip>
+				)}
+				{this.state.analysisTime && this.state.analysisTime !== "" && (
+					// this.state.tags.map((z) => <Chip label={`tags - ${z}`}></Chip>)
+					<Chip
+						label={`analysis time - ${this.state.analysisTime}`}
+						onDelete={() => this.setState({ analysisTime: "" })}
+					></Chip>
 				)}
 
-				<Select handleSelect={this.handleSelect} />
+				<Select handleSelect={this.handleSelect} filterData={filterData} />
 			</div>
 		);
 	}

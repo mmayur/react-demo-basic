@@ -40,18 +40,7 @@ const MenuProps = {
 	},
 };
 
-const names = [
-	"Oliver Hansen",
-	"Van Henry",
-	"April Tucker",
-	"Ralph Hubbard",
-	"Omar Alexander",
-	"Carlos Abbott",
-	"Miriam Wagner",
-	"Bradley Wilkerson",
-	"Virginia Andrews",
-	"Kelly Snyder",
-];
+const names = ["tag 1", "tag 2", "tag 3"];
 
 export default function MultipleSelect({ close, save, handleSelect }) {
 	const classes = useStyles();
